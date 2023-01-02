@@ -1,0 +1,48 @@
+[
+	{
+		"name" : "Angels We Have Heard on High",
+		"file" : "96",
+		"licence" : "CCLI Song # 7001390; Ed Cash | Fionán De Barra | Keith Getty | Kristyn Getty; © 2013 Capitol CMG Paragon (Admin. by Capitol CMG Publishing); De Barra, Fionan (Admin. by Music Services, Inc.); Getty Music Publishing (Admin. by Music Services, Inc.); CCLI License # 2975254"
+	},
+	{
+		"name" : "Gospels",
+		"file" : "advent25-2",
+		"licence" : ""
+	},
+	{
+		"name" : "Creed",
+		"file" : "creed",
+		"licence" : ""
+	},
+	{
+		"name" : "Eucharist",
+		"file" : "Eucharist",
+		"licence" : ""
+	},
+	{
+		"name" : "I Come with Joy",
+		"file" : "304",
+		"licence" : ""
+	},
+	{
+		"name" : "Good Christian Friends",
+		"file" : "107",
+		"licence" : ""
+	},
+	{
+		"name" : "Ending Prayer",
+		"file" : "thanks",
+		"licence" : ""
+	},
+	{
+		"name" : "Joy To The World",
+		"file" : "100",
+		"licence" : ""
+	},
+	{
+		"name" : "Thanks",
+		"file" : "end",
+		"licence" : ""
+	}
+
+]

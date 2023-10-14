@@ -5,130 +5,127 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="obs.css">
+	<link rel="stylesheet" href="obsani.css">
 <style> 
 	@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
-	#box {
-		position: absolute;
-		top:4px;
-		width: 98%;
-		height: 220px;
-		background: rgba(0, 0, 0, 0.7);
-	}
-
-	.words {
-		position: absolute;
-		top: 24px;
-		width: 98%;
-		height: 80%;
-		padding-top:8px;
-		font-family: "Poppins", sans-serif;
-		font-size: 40px;
-		border-left: 5px solid #37554c;
-		line-height: 1.8;
-		color: white;
-		text-align: center;
-	}
-
-	#curved-corner-topleft {
-	  width: 190px;
-	  height: 220px;
-	  top: 0px;
-	  left: 40px;
-	  border-top-left-radius: 25px;
-	  overflow: hidden;
-	  position: absolute;
-	}
-	
-	#curved-corner-topleft:before {
-	  content: "";
-	  display: block;
-	  width: 200%;
-	  height: 200%;
-	  position: absolute;
-	  border-radius: 50%;
-	}
-
-	#curved-corner-topleft:before {
-	  top: 0;
-	  left: 0;
-	  box-shadow: -55px -55px 0 0 teal;
-	}
-	
-	#topline {
-		border-top: 5px solid teal;
-		width: 90%;
-		position: absolute;
-		left: 120px;
-		top: 0px;
-	}
-
-	#sideline {
-		border-left: 5px solid #37554c;
-		left: 200px;
-		position: absolute;
-		top: 40px;
-		bottom: 70px;
-	}
 </style>
 
 
 </head>
 <body>
 
-<!--#37554c -->
 
-<div id="body">
-	<div id="box" class="w3-container">
-		<div class="w3-container w3-cell w3-cell-middle w3-padding-48"><img style="width: 160px; height: 90px;" src="Icon.png" >
+<div id="AniBox" class="anibox" style="visibility: hidden;">
+	<div id="AniPic" class="AniImage" style="margin-left: 30px;">
+		<img id="image" src="//:0">
+	</div>
+	<div class="text-Content">
+		<div class="topLine"><div id="topLine" style="overflow: hidden;"></div></div>
+		<div class="botLine"><div id="botLine" style="overflow: hidden;"></div></div>
+	</div>
+	<div class="line" style="border-color:white; background-color:white;"></div>
+</div>
+
+
+<div id="lyrics" style = "opacity: 0;">
+	<div class="box w3-container">
+		<div class="w3-container w3-cell w3-cell-middle w3-padding-48"><img style="width: 140px; height: 140px;" src="../data/pics/Icon.png" >
 		</div>
 		<div class="w3-container w3-cell w3-cell-middle w3-padding-48" style="width:95%;">
-			<h1 id="update" style="font-family: 'Poppins', sans-serif; font-size: 40px; border-left: 5px solid white ; color: white;	text-align: center;"></h1>	
+			<h1 id="update" style="font-family: 'Poppins', sans-serif; font-size: 40px; border-left: 5px solid white; color: white;	text-align: center;"></h1>	
 		<div>
-		<p style="font-size: 8px; text-align:center; color: white;" id="licence"></p>
+		<p style="font-size: 10px; text-align:center; color: white;" id="licence"></p>
 	</div>	
-			<!--<h1 id="update" class="words"></h1>
-			<p id="curved-corner-topleft" style="text-indent:90px;"> </p>
-			<p id="sideline"></p>
-			<img src="Icon.png" style="width:160px;height:90px;position:absolute;top:70px;left:30px;">-->
 </div>
 </body>
 
 <script>
-const ws = new WebSocket("ws://192.168.0.8:2383");
-ws.addEventListener("open", () =>{
-  document.getElementById ("body").style.visibility = "hidden";
-  ws.send(JSON.stringify({
-		type: "name",
-		data: "obs"
-	  }));
-});
+
+		function animatein(){
+			const elementAnim = document.getElementById("AniBox");
+			elementAnim.classList.remove("animation-out");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("animation-in");
+		};
+
+        function animateout(){
+			const elementAnim = document.getElementById("AniBox");
+			elementAnim.classList.remove("animation-in");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("animation-out");
+		};
+
+		function fadein(){
+			const elementAnim = document.getElementById("lyrics");
+			elementAnim.classList.remove("fade-out");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("fade-in");
+		};
+
+        function fadeout(){
+			const elementAnim = document.getElementById("lyrics");
+			elementAnim.classList.remove("fade-in");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("fade-out");
+		};
+
+		const ws = new WebSocket("ws://localhost:1234");
+		ws.addEventListener("open", () =>{
+		document.getElementById ("lyrics").style.opacity=0;
+		ws.send(JSON.stringify({
+				type: "name",
+				data: "obs"
+			}));
+		});
 
 
-ws.addEventListener('message', function (event) {
-    m = JSON.parse(event.data);
-    switch (m.type) {
-		case ("visible"):
-			if (m.data == "f") {
-				document.getElementById ("body").style.visibility = "hidden";
-				console.log("should be missing");
-			} else {
-				document.getElementById ("body").style.visibility = "visible";
-				console.log("should be seen");
-			}
-			break;
-		case ("lyrics"):
-			document.getElementById ("update") .innerHTML = m.data;
-			document.getElementById("body").style.visibility = "visible";
-			document.getElementById("licence").innerHTML="";
-			break;
-		case ("licence"):
-			document.getElementById("licence").innerHTML = m.data;
-			break;
-			
-	}
-	
-});
+	ws.addEventListener('message', function (event) {
+		m = JSON.parse(event.data);
+		switch (m.type) {
+			case ("visible"):
+				if (m.data == "f") {
+					fadeout();
+				} else {
+					document.getElementById ("AniBox").style.visibility = "hidden";
+					fadein();
+				}
+				break;
+			case ("lyrics"):
+				if (!(document.getElementById("lyrics").classList.contains("fade-in"))) {
+					document.getElementById("lyrics").classList.remove("fade-out");
+					document.getElementById("AniBox").style.visibility = "hidden";
+					document.getElementById ("update") .innerHTML = m.data;
+					document.getElementById("lyrics").style.opacity = 1;
+					document.getElementById("licence").innerHTML="";
+					void document.getElementById("lyrics").offsetWidth;
+					document.getElementById("lyrics").classList.add("fade-in");
+				} else {
+					document.getElementById("AniBox").style.visibility = "hidden";
+					document.getElementById("lyrics").style.opacity = 1;
+					document.getElementById ("update") .innerHTML = m.data;
+					document.getElementById("lyrics").style.opacity = 1;
+					document.getElementById("licence").innerHTML="";
+				}
+				break;
+			case ("licence"):
+				document.getElementById("licence").innerHTML = m.data;
+				break;
+			case ("anime"):
+				document.getElementById("lyrics").style.opacity=0;
+				document.getElementById("AniBox").style.visibility = "visible";
+				var n = JSON.parse(m.data);
+				document.getElementById("topLine").innerHTML = n.top;
+            	document.getElementById("botLine").innerHTML = n.bottom;
+				document.getElementById("image").src="../data/pics/"+n.image;
+				animatein();
+				break;
+			case ("fire"):
+				animateout();
+				break;
+		}
+		
+	});
 
 </script>
 

@@ -1,0 +1,29 @@
+[
+    {
+        "slide" : "!",
+        "text" : "Jesus Is Lord!"
+    },
+    {
+        "slide" : "!",
+        "text" : "God so loved the World<br>that he sent his son."
+    },
+    {
+        "slide" : "!",
+        "text" : "Praise to You, Lord Christ."
+    },
+    {
+        "slide" : "#",
+        "text" : "This slide is blank."
+    },
+    {
+        "slide" : "@",
+        "img" : "Icon.png",
+        "text" : "Animation",
+        "top" : "Thanks for trying",
+        "bottom" : "Textviewer"
+    },
+    {
+        "slide" : "*",
+        "text" : "Close Animation"
+    }
+]

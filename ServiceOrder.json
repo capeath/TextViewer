@@ -1,0 +1,32 @@
+[
+	{
+		"name" : "Opening Text",
+        "type" : "text",
+		"file" : "Normal"
+	},
+    {
+		"name" : "The Doxology",
+		"type" : "songs",
+		"file" : "Doxology"
+	},
+    {
+		"name" : "Psalms",
+        "type" : "psalms",
+		"file" : "p23"
+	},
+	{
+		"name" : "Doxology With Licence",
+        "type" : "songs",
+		"file" : "Doxology",
+		"licence" : "Public Domain in the United States"
+	},
+	{
+		"name" : "Animated Text",
+		"type" : "text",
+		"file" : "Animation"
+	},
+    {
+        "name" : "End Of Service",
+        "data" : "EOF"
+    }
+]

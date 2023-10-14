@@ -1,0 +1,341 @@
+.anibox {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    position: absolute;
+    background-image : linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
+}
+
+
+
+.anibox > .text-Content {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    margin-right: 4em;
+    margin-left: 30px;
+    height : 180px;
+}
+
+.anibox > .text-Content > .topLine {
+    position: relative;
+    margin-top: .2em;
+    height:1.4em;
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    color: white;
+    direction: rtl;
+    overflow: hidden;
+    white-space: nowrap;
+    align-self: start;
+}
+
+.anibox > .text-Content > .botLine {
+    position: relative;
+    height: 1.4em;
+    margin-top: .3em;
+    font-family: "Poppins", sans-serif;
+    font-size: 50px;
+    color: white;
+    direction: rtl;
+    overflow: hidden;
+    white-space: nowrap;
+    align-self: start;
+}
+
+img {
+    height: 150px;
+    width: 180px;
+    display: block;
+}
+
+.change {
+    height:150px;
+    width: 300px;
+    display: block;
+}
+
+.line {
+    height:140px;
+    width: 4px;
+    border-style: solid;
+    border-width: 2px;
+    position: absolute;
+    top: 25px;
+    left: 180px;
+}
+
+.hideleft {
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    opacity: 0;
+    animation: hidel 16s 2 alternate;
+}
+
+.txt {
+    position: relative;
+    height:150px;
+    width: 300px;
+    background-color: blue;
+}
+
+.hideright {
+    position: absolute;
+    padding-left: 100%;
+    display: inline-block;
+    top: 30px;
+    left: 200px;
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    object-fit: cover;
+    opacity: 0;
+    
+}
+
+@keyframes hidel {
+    0% {
+        object-position: 50px 0;
+        opacity: 0;
+        left: -10px;
+    }
+    40% {
+        object-position: 50px 0;
+        opacity: 0;
+        left: -10px;
+    }
+    100% {
+        object-position: 0 0;
+        opacity: 1;
+        left: 40px;
+    }
+    
+}
+
+@keyframes hideimage {
+    0% {
+        opacity: 0;
+        width: 0px;
+    }
+    30% {
+        opacity: 0;
+        width: 0px;
+    }
+    100% {
+        opacity: 1;
+        width: 310px;
+    }
+}
+
+@keyframes lines {
+    0% {
+        opacity:0;
+        left: 650px;
+    }
+    20% {
+        opacity: 0;
+        left: 650px;
+    }
+    100% {
+        opacity:1;
+        left: 220px;
+
+    }
+}
+
+@keyframes backs {
+	0% {
+		width: 0%;
+	}
+	25% {
+		width: 70%;
+	}	
+	100% {
+		width: 70%;
+	}
+}
+
+
+.outer {
+    width : 400px;
+    height: 200px;
+    display: block;
+    padding-top: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    position: absolute;
+    top: 30px;
+    left: 100px;
+    visibility: hidden;
+    animation-name: mleft;
+    animation-timing-function: ease-in;
+    animation-duration: 15s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+}
+.inner {
+    width: 300px;
+    height: 150px;
+    position: relative;
+    left: -300px;
+    animation-name: spread;
+    animation-duration: 15s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+    background-color: blue;
+}
+
+@keyframes spread {
+    0%
+        {
+        left: -200%;
+        }
+    35% {
+        left: -200%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+@keyframes Top {
+	0% {
+        width: 0%;
+	}
+	45% {
+        width: 0%;
+	}
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes Bottom {
+	0% {
+        width: 0%;
+	}
+	48% {
+        width: 0%;
+	}
+    100% {
+        width: 100%;
+    }
+}
+
+.main {
+    text-align:left;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    height: 200px;
+    animation: hider 16s 2 alternate backwards;
+    visibility: hidden;
+}
+.marq {
+    padding-top:30px;
+    padding-bottom:30px;
+    text-align: left;
+}
+.line1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    color:white;
+    color:white;
+    text-align:left;
+}
+.line2 {
+    text-align:left;
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    color:white;
+}
+
+.animation-in {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 3s;
+    animation-name: backs;
+}
+
+.animation-out {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 3s;
+    animation-name: backs;
+}
+
+.animation-in > div:first-child img {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 3s;
+    animation-name: hidel;
+}
+
+.animation-out > div:first-child img {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 3s;
+    animation-name: hidel;
+}
+
+/*
+.animation-in > div:first-child {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 10s;
+    animation-name: hideimage;
+}
+
+.animation-out > div:first-child {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 10s;
+    animation-name: hideimage;
+}
+*/
+.animation-in > div:nth-child(2) div {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 3s;
+    animation-name: spread;
+}
+
+.animation-out > div:nth-child(2) div {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 3s;
+    animation-name: spread;
+}
+
+.animation-in > div:nth-child(2) > div:first-child div {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 3s;
+    animation-name: Top;
+}
+
+.animation-out > div:nth-child(2) > div:first-child div {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 3s;
+    animation-name: Top;
+}
+
+.animation-in > div:nth-child(2) > div:nth-child(2) div {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 3s;
+    animation-name: Bottom;
+}
+
+.animation-out > div:nth-child(2) > div:nth-child(2) div {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 3s;
+    animation-name: Bottom;
+}
+
+.animation-in > div.line {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 normal both;
+    animation-duration: 3s;
+    animation-name: lines;
+}
+
+.animation-out > div.line {
+    animation: cubic-bezier(0.19, 0.76, 0.32, 1) 1 reverse both;
+    animation-duration: 3s;
+    animation-name: lines;
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="obs.css">
+	<link rel="stylesheet" href="obsani.css">
+<style> 
+	@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+</style>
+
+
+</head>
+<body>
+
+
+<div id="AniBox" class="anibox" style="visibility: hidden;">
+	<div id="AniPic" class="AniImage" style="margin-left: 30px;">
+		<img id="image" src="//:0">
+	</div>
+	<div class="text-Content">
+		<div class="topLine"><div id="topLine" style="overflow: hidden;"></div></div>
+		<div class="botLine"><div id="botLine" style="overflow: hidden;"></div></div>
+	</div>
+	<div class="line" style="border-color:white; background-color:white;"></div>
+</div>
+
+
+<div id="lyrics" style = "opacity: 0;">
+	<div class="box w3-container">
+		<div class="w3-container w3-cell w3-cell-middle w3-padding-48"><img style="width: 140px; height: 140px;" src="../data/pics/Icon.png" >
+		</div>
+		<div class="w3-container w3-cell w3-cell-middle w3-padding-48" style="width:95%;">
+			<h1 id="update" style="font-family: 'Poppins', sans-serif; font-size: 40px; border-left: 5px solid white; color: white;	text-align: center;"></h1>	
+		<div>
+		<p style="font-size: 10px; text-align:center; color: white;" id="licence"></p>
+	</div>	
+</div>
+</body>
+
+<script>
+
+		function animatein(){
+			const elementAnim = document.getElementById("AniBox");
+			elementAnim.classList.remove("animation-out");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("animation-in");
+		};
+
+        function animateout(){
+			const elementAnim = document.getElementById("AniBox");
+			elementAnim.classList.remove("animation-in");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("animation-out");
+		};
+
+		function fadein(){
+			const elementAnim = document.getElementById("lyrics");
+			elementAnim.classList.remove("fade-out");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("fade-in");
+		};
+
+        function fadeout(){
+			const elementAnim = document.getElementById("lyrics");
+			elementAnim.classList.remove("fade-in");
+			void elementAnim.offsetWidth;
+			elementAnim.classList.add("fade-out");
+		};
+
+		const ws = new WebSocket("ws://localhost:1234");
+		ws.addEventListener("open", () =>{
+		document.getElementById ("lyrics").style.opacity=0;
+		ws.send(JSON.stringify({
+				type: "name",
+				data: "obs"
+			}));
+		});
+
+
+	ws.addEventListener('message', function (event) {
+		m = JSON.parse(event.data);
+		switch (m.type) {
+			case ("visible"):
+				if (m.data == "f") {
+					fadeout();
+				} else {
+					document.getElementById ("AniBox").style.visibility = "hidden";
+					fadein();
+				}
+				break;
+			case ("lyrics"):
+				if (!(document.getElementById("lyrics").classList.contains("fade-in"))) {
+					document.getElementById("lyrics").classList.remove("fade-out");
+					document.getElementById("AniBox").style.visibility = "hidden";
+					document.getElementById ("update") .innerHTML = m.data;
+					document.getElementById("lyrics").style.opacity = 1;
+					document.getElementById("licence").innerHTML="";
+					void document.getElementById("lyrics").offsetWidth;
+					document.getElementById("lyrics").classList.add("fade-in");
+				} else {
+					document.getElementById("AniBox").style.visibility = "hidden";
+					document.getElementById("lyrics").style.opacity = 1;
+					document.getElementById ("update") .innerHTML = m.data;
+					document.getElementById("lyrics").style.opacity = 1;
+					document.getElementById("licence").innerHTML="";
+				}
+				break;
+			case ("licence"):
+				document.getElementById("licence").innerHTML = m.data;
+				break;
+			case ("anime"):
+				document.getElementById("lyrics").style.opacity=0;
+				document.getElementById("AniBox").style.visibility = "visible";
+				var n = JSON.parse(m.data);
+				document.getElementById("topLine").innerHTML = n.top;
+            	document.getElementById("botLine").innerHTML = n.bottom;
+				document.getElementById("image").src="../data/pics/"+n.image;
+				animatein();
+				break;
+			case ("fire"):
+				animateout();
+				break;
+		}
+		
+	});
+
+</script>
+
+
+</html>
+
+
+

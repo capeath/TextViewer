@@ -15,10 +15,10 @@ bottom – This is the bottom line in the animation.
 data – Currently only used for the “EOF” to mark end of file.  This will cause the program to close.
 
 Type of slides:
-! = This is normal slide.
-# = This is a blank slide.  The lower-thirds disappears from view. The ‘text’ field is just seen by the control socket.
-@= This is an animated slide.  It requires an img, top, and bottom field.  The ‘text’ field is just seen by the control socket.
-* = This causes the animated slide to disappear. The ‘text’ field is just seen by the control socket.
+'!' = This is normal slide.
+'#' = This is a blank slide.  The lower-thirds disappears from view. The ‘text’ field is just seen by the control socket.
+'@' = This is an animated slide.  It requires an img, top, and bottom field.  The ‘text’ field is just seen by the control socket.
+'*' = This causes the animated slide to disappear. The ‘text’ field is just seen by the control socket.
 
 obs.html is used by OBS in the browser object.  It is set up to be in 720p regardless of the underlying canvas size.  This is how the tabulation and animation is set up.  If you make it more than that, it will not look right. It should be set with a width of 1366, a height of 600, and the top should be 754px from the top.
 

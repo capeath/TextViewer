@@ -1,5 +1,5 @@
 var wss = require('ws').Server;
-var Serv = new wss({ port: 1234});
+var Serv = new wss({ port: 2383});
 const serviceOrder = require('./ServiceOrder.json');
 var connectName;
 var obs;
@@ -19,12 +19,21 @@ Serv.on('connection', function(ws) {
 	var d;
 	ws.on('message', function(messageIn) {
 		message = JSON.parse(messageIn);
+		ws.isAlive = true;
+		clearInterval(ws.heartbeat);
 		switch(message.type) {
+			case ("ping"):
+				ws.isAlive = true;
+				sendData(ws.Usr,JSON.stringify({
+					type:"pong"
+				}))
+				break;
 			case ("name"):
 				if (message.data == "control") {
 					cntrl=1;
 					ws.Usr = "ctrl";
 					console.log("Control Connected");
+					ws.isAlive = true;
 					cmdScreen(0);
 					cmdMenu(0);
 					setTitle(serviceOrder[fileNo].name);
@@ -40,6 +49,7 @@ Serv.on('connection', function(ws) {
 				else if (message.data == "obs") {
 					obs=1;
 					ws.Usr = "obs";
+					ws.isAlive = true;
 					console.log("OBS Connected");
 					if (cntrl == 1) {
 						Serv.clients.forEach(function e(client) {
@@ -133,6 +143,7 @@ Serv.on('connection', function(ws) {
 								lineNo=-1;
 								cmdScreen(1);
 								console.log('Skipped to '+serviceOrder[fileNo].name);
+								setTitle(serviceOrder[fileNo].name);
 								break;
 						}
 				}
@@ -145,20 +156,24 @@ Serv.on('connection', function(ws) {
 		}
 	});	
 	ws.on('close', function() {
-		if (ws.Usr == "ctrl") {
-			cntrl=0;
-			setVis(0);
-		} else {
-			obs=0;
-			d = JSON.stringify({
-				type: "connect",
-				data: "false"
-			});
-			sendData("ctrl",d);
-		}
-		console.log (ws.Usr + "closed");
-	});
+		terminate(Serv.clients);
+	} );
 });
+
+function terminate (client) {
+	if (client.Usr == "ctrl") {
+		cntrl=0;
+		setVis(0);
+	} else {
+		obs=0;
+		d = JSON.stringify({
+			type: "connect",
+			data: "false"
+		});
+		sendData("ctrl",d);
+	}
+	console.log (client.Usr + "closed");
+};
 
 function getText(n) {
     if (serviceOrder[n].data == "EOF") {
@@ -363,3 +378,18 @@ function testStart() {
 		process.stdin.on('data', process.exit.bind(process, 0));
 	}
 }
+var c=0;
+const heartbeat = setInterval (() => {
+	Serv.clients.forEach(function e(client) {
+		if (!client.isAlive) {
+			terminate(client);
+			console.log(client.Usr + " ping failed");
+		} else {
+			client.isAlive=false;
+			p=JSON.stringify({
+				type: "ping"
+			})
+			client.send(p);
+		}
+	});	
+},5000);

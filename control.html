@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<head>
+	<meta charset="utf-8">
+	<title>NodeJS WebSocket Server</title>
+</head>
+<style>
+	.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+<body>
+	<h1 id="title">Current Song</h1>
+	<div id="update">
+	</div>
+	<div id="buttons">
+	 <button class="w3-button w3-white w3-border w3-border-blue" style="color:blue" id="connect" type="button">Connect</button> 
+	 <button class="w3-btn w3-large-round w3-large w3-blue" onclick="fnPrev()" id="prev" type="button">PREVIOUS</button>
+	 <button class="w3-btn w3-large-round w3-large w3-red" onclick="fnNext()" id="next" type="button">NEXT</button>
+	 <label class="switch"><input onclick="fnVis()" id="checkd" type="checkbox" checked><span class="slider round"></span></label><a id="vis">Visible</a>
+	</div>
+	<div id="menu" class="w3-container w3-padding-24 "></div>
+<script>
+	
+const ws = new WebSocket("ws://localhost:1234");
+var c=2;
+
+ws.addEventListener("open", () =>{
+  ws.send(JSON.stringify({
+		type: "name",
+		data: "control"
+	  }));
+});
+
+ws.addEventListener('message', function (event) {
+	c++;
+    m = JSON.parse(event.data);
+    switch (m.type) {
+		case ("connect"):
+			if (m.data == "true") {
+				document.getElementById ("connect"). innerHTML = "Connected";
+			} else {
+				document.getElementById ("connect"). innerHTML = "Disconnected";
+			}
+			break;
+		case ("screen"):
+			document.getElementById ("update") .innerHTML = m.data;
+			break;
+        case ("title"):
+            document.getElementById ("title") .innerHTML = m.data;
+            break;
+		case ("menu"):
+			document.getElementById ("menu") .innerHTML = m.data;
+			break;
+		case ("ping"):
+			c++;
+			ws.send(JSON.stringify({
+				type: "pong",
+				data: "ctrl"
+			}))
+			break;
+	}
+});
+
+function fnNext() {
+	ws.send(JSON.stringify({
+			type: "ctrl",
+			data: "next"
+	}));
+	fnCurrentVis();
+}
+function fnPrev() {
+	ws.send(JSON.stringify({
+		type: "ctrl",
+		data: "prev"
+	}));
+	fnCurrentVis();
+}
+
+function fnCurrentVis() {
+	if (!document.getElementById("checkd").checked) {
+		ws.send(JSON.stringify({
+			type: "ctrl",
+			data:"hide"
+		}));
+	}
+}
+
+function fnCurr() {
+	if (document.getElementById('checkd').checked) {
+		document.getElementById('checkd').checked=false;
+	} else {
+		document.getElementById('checkd').checked=true;
+	}
+	fnVis();
+}
+
+function fnVis() {
+	if (document.getElementById("checkd").checked) {
+		ws.send(JSON.stringify({
+			type: "ctrl",
+			data: "show"
+		}));
+		document.getElementById("vis").innerHTML="Visible";
+	} else {
+		ws.send(JSON.stringify({
+			type: "ctrl",
+			data:"hide"
+		}));
+		document.getElementById("vis").innerHTML="Not Visible";		
+	}
+}
+
+function fnMenu(p) {
+	q = JSON.stringify({
+		type : "menu",
+		data : p
+	});
+	ws.send(JSON.stringify({
+			type: "ctrl",
+			data: q
+	}));
+}
+
+
+const heartbeat = setInterval (() => {
+		if (c > 1) {
+			c=0;
+		} else {
+			p="<h3>This is disconnected. Please check connection and reload";
+			document.getElementById("update").innerHTML=p;
+		}
+	},8000);
+
+</script>
+</body>
+</html>

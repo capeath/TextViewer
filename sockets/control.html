@@ -81,9 +81,9 @@ input:checked + .slider:before {
 <script>
 	
 const ws = new WebSocket("ws://localhost:1234");
+var c=2;
 
 ws.addEventListener("open", () =>{
-  console.log("We are connected");
   ws.send(JSON.stringify({
 		type: "name",
 		data: "control"
@@ -91,6 +91,7 @@ ws.addEventListener("open", () =>{
 });
 
 ws.addEventListener('message', function (event) {
+	c++;
     m = JSON.parse(event.data);
     switch (m.type) {
 		case ("connect"):
@@ -108,6 +109,13 @@ ws.addEventListener('message', function (event) {
             break;
 		case ("menu"):
 			document.getElementById ("menu") .innerHTML = m.data;
+			break;
+		case ("ping"):
+			c++;
+			ws.send(JSON.stringify({
+				type: "pong",
+				data: "ctrl"
+			}))
 			break;
 	}
 });
@@ -171,6 +179,16 @@ function fnMenu(p) {
 			data: q
 	}));
 }
+
+
+const heartbeat = setInterval (() => {
+		if (c > 1) {
+			c=0;
+		} else {
+			p="<h3>This is disconnected. Please check connection and reload";
+			document.getElementById("update").innerHTML=p;
+		}
+	},8000);
 
 </script>
 </body>

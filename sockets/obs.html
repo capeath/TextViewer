@@ -15,6 +15,7 @@
 </head>
 <body>
 
+<!--#37554c -->
 
 <div id="AniBox" class="anibox" style="visibility: hidden;">
 	<div id="AniPic" class="AniImage" style="margin-left: 30px;">
@@ -24,16 +25,16 @@
 		<div class="topLine"><div id="topLine" style="overflow: hidden;"></div></div>
 		<div class="botLine"><div id="botLine" style="overflow: hidden;"></div></div>
 	</div>
-	<div class="line" style="border-color:white; background-color:white;"></div>
+	<div class="line" style="border-color:#37554c; background-color:#37554c;"></div>
 </div>
 
 
 <div id="lyrics" style = "opacity: 0;">
 	<div class="box w3-container">
-		<div class="w3-container w3-cell w3-cell-middle w3-padding-48"><img style="width: 140px; height: 140px;" src="../data/pics/Icon.png" >
+		<div class="w3-container w3-cell w3-cell-middle w3-padding-48"><img style="width: 140px; height: 140px;" src="../data/pics/greenIcon.png" >
 		</div>
 		<div class="w3-container w3-cell w3-cell-middle w3-padding-48" style="width:95%;">
-			<h1 id="update" style="font-family: 'Poppins', sans-serif; font-size: 40px; border-left: 5px solid white; color: white;	text-align: center;"></h1>	
+			<h1 id="update" style="font-family: 'Poppins', sans-serif; font-size: 40px; border-left: 5px solid #37554c; color: white;	text-align: center;"></h1>	
 		<div>
 		<p style="font-size: 10px; text-align:center; color: white;" id="licence"></p>
 	</div>	
@@ -41,6 +42,8 @@
 </body>
 
 <script>
+
+var c=2;
 
 		function animatein(){
 			const elementAnim = document.getElementById("AniBox");
@@ -81,6 +84,7 @@
 
 
 	ws.addEventListener('message', function (event) {
+		c++;
 		m = JSON.parse(event.data);
 		switch (m.type) {
 			case ("visible"):
@@ -123,9 +127,27 @@
 			case ("fire"):
 				animateout();
 				break;
+			case ("ping"):
+				var p = JSON.stringify({
+					type: "pong",
+					data: "obs"
+				});
+				ws.send(p);
+				c++;
+				break;
 		}
 		
 	});
+
+	const heartbeat = setInterval (() => {
+		if (c > 1) {
+			c=0;
+		} else {
+			document.getElementById("lyrics").style.opacity=0;
+			document.getElementById("AniBox").style.visibility = "hidden";
+			location.reload();
+		}
+	},8000);
 
 </script>
 

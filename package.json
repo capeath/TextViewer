@@ -1,0 +1,46 @@
+{
+  "name": "TextviewerGUI",
+  "version": "0.3.0",
+  "description": "This is a program that place text as a lower thirds on OBS or similar programs.",
+  "homepage": "eshorton.com",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "author": {
+    "name": "Eric Horton",
+    "email": "myemail@email.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/qrcode": "^1.5.5",
+    "@types/ws": "^8.5.12",
+    "config": "^3.3.11",
+    "electron": "^28.2.3",
+    "electron-builder": "^24.13.3",
+    "fs": "^0.0.1-security",
+    "ip": "^2.0.1",
+    "qrcode": "^1.5.4",
+    "ws": "^8.16.0"
+  },
+  "build": {
+    "linux": {
+      "icon": "./config/Icon.png",
+      "category": "Office",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "dependencies": {
+    "@types/qrcode": "^1.5.5",
+    "@types/ws": "^8.5.12",
+    "config": "^3.3.11",
+    "fs": "^0.0.1-security",
+    "ip": "^2.0.1",
+    "qrcode": "^1.5.4",
+    "ws": "^8.16.0"
+}
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+    <script src="../js/render.js"></script>
+    <link rel="icon" type="image/x-icon" href="../pics/TextViewer.png">
+</head>
+<body>
+    
+<header class="w3-container w3-center" style="background-color: #37554c;" id="head"></header>
+
+<section class="w3-cell-row">
+    <div class="w3-container w3-cell w3-cell-top w3-white">
+        <div id="dir"></div>
+    </div>
+    
+    <div class="w3-container w3-cell w3-cell-top" style="width: 30%;">
+        <div id="butts"></div>
+        <div class="w3-container w3-cell w3-grey"><div id="nav"></div></div>
+    </div>
+</section>
+
+<footer class="w3-container w3-center" style="background-color: #37554c;" id="foot"></footer>
+</body>
+
+<script>
+
+function buttons(v) {
+    window.electron.sendCommand(v);
+}
+
+function fnNav(v) {
+    window.electron.sendNav(v);
+}
+
+function fnMenu(v) {
+    window.electron.goNavi(v);
+}
+
+</script>
+</html>

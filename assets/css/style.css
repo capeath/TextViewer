@@ -1,0 +1,11 @@
+button {
+    display: block;
+    cursor: pointer;
+
+}
+
+h3 {
+    color: red;
+    font-size: 18px;
+    font-family: 'Courier New', Courier, monospace;
+}
